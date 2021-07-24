@@ -6,9 +6,16 @@ public class Main extends JFrame {
     private static MainPanel panel= new MainPanel();
 
     public Main(){
-        add(panel);
+        Container mainContentPane = getContentPane();
+        mainContentPane.setLayout(new BorderLayout());
+        SnakePane snakePane = new SnakePane();
+        mainContentPane.add(snakePane, BorderLayout.CENTER);
+        setUndecorated(false); //no effect when false
 
-        panel.setFocusable(true);
+        // Ignore automatic paints, we are gonna paint what we need manually ourselves
+        setIgnoreRepaint(true);
+
+        pack();
     }
 
     /**
@@ -37,34 +44,10 @@ public class Main extends JFrame {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
-        gameloop();
     }
 
 
 
-    private static void gameloop(){
-
-        long fps = 1000/60;
-        long executionTime;
-
-
-
-        while(true){
-            executionTime = System.currentTimeMillis() +fps;
-
-            panel.repaint();
-
-            executionTime = executionTime - System.currentTimeMillis();
-            System.out.println(executionTime);
-            if(executionTime > 0) {
-                try {
-                    Thread.sleep(executionTime);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
 
 
@@ -72,6 +55,9 @@ public class Main extends JFrame {
 
         int x = 0;
         int y = 5;
+
+        double speed = 100/1000.0;
+        long last = System.currentTimeMillis();
 
         public MainPanel(){
 
@@ -82,13 +68,20 @@ public class Main extends JFrame {
         protected void paintComponent(Graphics g){
             super.paintComponent(g);
 
-            g.fillRect(x, y, 10, 10);;
-            x+=5;
+            long  now = System.currentTimeMillis();
+
+            g.fillRect(x, y, 10, 10);
+            System.out.println(speed * ( (now-last) ));
+            x+=speed * ( (now-last));
             if(x > 500){
                 x =0;
                 y +=5;
             }
 
+
+
+
+            last = now;
         }
     }
 }
