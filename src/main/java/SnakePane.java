@@ -21,6 +21,13 @@ public class SnakePane extends JComponent implements Runnable {
     private BufferedImage gameImage;
 
 
+    private Snake snake = new Snake(
+            new GridView(50, 500),
+        new Position(2,0), new Position(1,0), new Position(0,0)
+    );
+    private FakeSnake fakeSnake = new FakeSnake(snake);
+
+
     private int score;
 
     public SnakePane() {
@@ -34,6 +41,7 @@ public class SnakePane extends JComponent implements Runnable {
 
         gameImage = new BufferedImage(SnakeGame.GAME_WIDTH, SnakeGame.GAME_HEIGHT, BufferedImage.TYPE_INT_RGB);
 
+        addKeyListener(fakeSnake);
         requestFocus();
 
     }
@@ -110,12 +118,9 @@ public class SnakePane extends JComponent implements Runnable {
     }
 
 
-    Snake snake = new Snake(
-            new GridView(100, 500),
-            new Position(1,0), new Position(0,0)
-    );
     private void gameUpdate() {
         numberOfTimesGameUpdated++;
+        fakeSnake.move();
         snake.update();
     }
 
@@ -127,9 +132,11 @@ public class SnakePane extends JComponent implements Runnable {
 
         Graphics graphics = gameImage.createGraphics(); // We must get graphics and use it
 
+
         drawBase(graphics);
         graphics.setColor(Color.white);
         graphics.fillRect(x, y, 10, 10);
+        fakeSnake.draw(graphics);
         snake.draw(graphics);
         // Display the image
         g.drawImage(gameImage, 0, 0, null);

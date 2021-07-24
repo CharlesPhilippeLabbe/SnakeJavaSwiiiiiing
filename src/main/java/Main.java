@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class Main extends JFrame {
 
@@ -38,12 +40,11 @@ public class Main extends JFrame {
 
         Main frame = new Main();
 
-        frame.setTitle("Big snake");
+        frame.setTitle("Big Snake");
         frame.setSize(500, 500);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-
     }
 
 
