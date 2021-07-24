@@ -1,5 +1,9 @@
 
 
+import entities.GridView;
+import entities.Position;
+import entities.Snake;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -105,13 +109,14 @@ public class SnakePane extends JComponent implements Runnable {
         System.exit(0);
     }
 
+
+    Snake snake = new Snake(
+            new GridView(100, 500),
+            new Position(1,0), new Position(0,0)
+    );
     private void gameUpdate() {
         numberOfTimesGameUpdated++;
-        x+=5;
-        if(x > 500){
-            x = 0;
-            y +=5;
-        }
+        snake.update();
     }
 
     int x=4;
@@ -122,10 +127,10 @@ public class SnakePane extends JComponent implements Runnable {
 
         Graphics graphics = gameImage.createGraphics(); // We must get graphics and use it
 
-
         drawBase(graphics);
         graphics.setColor(Color.white);
         graphics.fillRect(x, y, 10, 10);
+        snake.draw(graphics);
         // Display the image
         g.drawImage(gameImage, 0, 0, null);
 
